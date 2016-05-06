@@ -104,9 +104,40 @@ HTTP/2.0规定了在客户端和服务器端会使用并且维护「首部表」
 
 
 
-## Start HTTP2 
+## Start HTTP2  
 
-use Node.js
+这里使用 Node.js 作为服务器端语言。
+
+#### 1. 安装[node-http2](https://github.com/molnarg/node-http2)模块
+
+`npm install http2`
+
+#### 2. TLS证书
+
+如果想要在生产环境中使用HTTP2，那么你可以去[这里](https://letsencrypt.org/)生成一个证书。
+
+如果你仅仅开发环境使用，那么我们可以自己生成一个自签名的TSL证书。
+
+##### 1. 安装OpenSSH
+
+##### 2. 
+
+
+
+#### 3. create server
+
+```javascript
+var options = {
+  key: fs.readFileSync('./example/localhost.key'),
+  cert: fs.readFileSync('./example/localhost.crt')
+};
+
+require('http2').createServer(options, function(request, response) {
+  response.end('Hello world!');
+}).listen(8080);
+```
+
+
 
 
 
