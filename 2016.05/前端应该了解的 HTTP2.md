@@ -104,7 +104,7 @@ HTTP/2.0规定了在客户端和服务器端会使用并且维护「首部表」
 
 
 
-## Start HTTP2  
+## HTTP2 实践 
 
 这里使用 Node.js 作为服务器端语言。
 
@@ -142,6 +142,7 @@ HTTP/2.0规定了在客户端和服务器端会使用并且维护「首部表」
 2. **server.csr** 你的TSL证书签名请求
 3. **server.crt** 你的TSL证书
 
+
 ### 2. 使用Node.js 创建服务器
 
 ##### 安装[node-http2](https://github.com/molnarg/node-http2)模块
@@ -167,6 +168,7 @@ require('http2').createServer(options, function(request, response) {
 
 `node index.js`
 
+
 ##### 使用浏览器访问
 
 `http://localhost:8080`
@@ -175,3 +177,19 @@ require('http2').createServer(options, function(request, response) {
 
 
 
+
+### Demo源码下载
+
+[点击这里](https://github.com/zhanyouwei/HTTP2-NodeJS-Demo)访问完整Demo
+
+https://github.com/zhanyouwei/HTTP2-NodeJS-Demo
+
+
+
+### 测试结果对比
+
+![http2test](http://7xs2h9.com1.z0.glb.clouddn.com/http2test.png)
+
+![http1test](http://7xs2h9.com1.z0.glb.clouddn.com/http1test.png)
+
+通过上面两张截图可以发现，使用了HTTP2后，同样的请求，在数据传输大小与速度上都有非常大的提升，几乎可以预见，不久的将来，HTTP2将会大放异彩。
