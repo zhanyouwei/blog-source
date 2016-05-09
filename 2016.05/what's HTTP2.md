@@ -108,11 +108,7 @@ HTTP/2.0规定了在客户端和服务器端会使用并且维护「首部表」
 
 这里使用 Node.js 作为服务器端语言。
 
-#### 1. 安装[node-http2](https://github.com/molnarg/node-http2)模块
-
-`npm install http2`
-
-#### 2. TLS证书
+### 1. 生成**TLS**证书
 
 如果想要在生产环境中使用HTTP2，那么你可以去[这里](https://letsencrypt.org/)生成一个证书。
 
@@ -120,16 +116,44 @@ HTTP/2.0规定了在客户端和服务器端会使用并且维护「首部表」
 
 ##### 1. 安装OpenSSH
 
-##### 2. 
+##### 2. 使用OpenSSH生成私钥
+
+`openssl genrsa -des3 -passout pass:1234 -out server.pass.key 2048` 
+
+这里 `1234` 为私钥密码，如果你不想使用密码，则可以去除私钥密码，敲入如下密令：
+
+`openssl rsa -passin pass:x -in server.pass.key -out server.key`
+
+##### 3. 创建 证书签名请求
+
+这里使用无密码私钥，如果使用带密码私钥，只需将`server.key`更换为`server.pass.key`即可，密令如下
+
+`openssl req -new -key server.key -out server.csr`
+
+##### 4. 创建证书
+
+`openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt`
 
 
 
-#### 3. create server
+通过以上四个步骤，我们得到了三个文件
+
+1. **server.key** 你的TSL证书私钥
+2. **server.csr** 你的TSL证书签名请求
+3. **server.crt** 你的TSL证书
+
+### 2. 使用Node.js 创建服务器
+
+##### 安装[node-http2](https://github.com/molnarg/node-http2)模块
+
+`npm install http2`
+
+##### 创建服务器
 
 ```javascript
 var options = {
-  key: fs.readFileSync('./example/localhost.key'),
-  cert: fs.readFileSync('./example/localhost.crt')
+  key: fs.readFileSync('./server.key'),
+  cert: fs.readFileSync('./server.crt')
 };
 
 require('http2').createServer(options, function(request, response) {
@@ -139,7 +163,15 @@ require('http2').createServer(options, function(request, response) {
 
 
 
+##### 启动服务器
 
+`node index.js`
+
+##### 使用浏览器访问
+
+`http://localhost:8080`
+
+到此，一个简单的Demo就完成了。
 
 
 
