@@ -1,7 +1,3 @@
----
-typora-copy-images-to: ipic
----
-
 # 基于Swagger 开发API接口平台理论篇
 
 ## API 接口平台提供什么
